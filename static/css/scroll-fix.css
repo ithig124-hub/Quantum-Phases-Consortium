@@ -1,0 +1,193 @@
+/* ============================================
+   QUANTUM PHASES - SCROLL FIX
+   Optimized scrolling for better responsiveness
+   ============================================ */
+
+/* Reset problematic overflow and scroll properties */
+html {
+    /* Enable smooth scrolling behavior */
+    scroll-behavior: smooth;
+    
+    /* Remove hidden overflow that blocks scrolling */
+    overflow-x: visible !important;
+    overflow-y: auto !important;
+    
+    /* Proper viewport height for mobile */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    
+    /* Better text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    /* Allow natural overflow instead of hidden */
+    overflow-x: visible !important;
+    overflow-y: auto !important;
+    
+    /* Enable momentum scrolling on iOS/mobile */
+    -webkit-overflow-scrolling: touch;
+    
+    /* Allow natural overscroll behavior */
+    overscroll-behavior-y: auto !important;
+    overscroll-behavior-x: none;
+    
+    /* Proper height management */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    
+    /* Prevent layout shifts */
+    position: relative;
+    
+    /* Better scroll performance */
+    will-change: scroll-position;
+}
+
+/* Fix for mobile viewport height issues */
+@supports (-webkit-touch-callout: none) {
+    html, body {
+        min-height: -webkit-fill-available;
+    }
+}
+
+/* Ensure main container allows scrolling */
+#root {
+    min-height: 100vh;
+    overflow: visible;
+    position: relative;
+}
+
+/* Improve scroll performance for all scrollable elements */
+* {
+    /* Better scroll behavior */
+    -webkit-overflow-scrolling: touch;
+    
+    /* Smooth transitions for scroll-related changes */
+    scroll-behavior: smooth;
+}
+
+/* Fix for fixed/sticky elements during scroll */
+.fixed, [style*="position: fixed"], [style*="position: sticky"] {
+    /* Prevent jank on scroll */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    
+    /* GPU acceleration */
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Optimize touch targets for better scroll interaction */
+a, button {
+    /* Remove tap delay */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    
+    /* Ensure proper touch interaction */
+    cursor: pointer;
+}
+
+/* Prevent scroll issues with images and media */
+img, video, iframe {
+    /* Prevent layout shifts */
+    max-width: 100%;
+    height: auto;
+    
+    /* Better rendering during scroll */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Fix for scroll snap issues if present */
+.scroll-snap-container {
+    scroll-snap-type: y proximity;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Improve scrollbar appearance (for desktop) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(13, 95, 110, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(13, 95, 110, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(13, 95, 110, 0.5);
+}
+
+/* Ensure proper scroll on mobile devices */
+@media (max-width: 768px) {
+    html, body {
+        /* Critical for mobile scrolling */
+        overflow-x: visible !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        
+        /* Better mobile scroll behavior */
+        overscroll-behavior: auto;
+        
+        /* Prevent zoom on double-tap */
+        touch-action: pan-y pan-x;
+    }
+    
+    /* Optimize for mobile performance */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* Fix for iOS Safari scroll issues */
+@supports (-webkit-touch-callout: none) {
+    body {
+        /* Fix iOS scroll bounce */
+        position: relative;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Performance optimization for scroll events */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Ensure content is accessible during scroll */
+[tabindex="-1"]:focus {
+    outline: none;
+}
+
+/* Fix potential scroll locking from modals/overlays */
+body.modal-open, body.no-scroll {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* Better scroll restoration */
+html {
+    scroll-padding-top: 0;
+}
